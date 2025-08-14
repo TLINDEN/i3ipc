@@ -1,5 +1,10 @@
 package i3ipc
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type Node struct {
 	Id                 int     `json:"id"`
 	Type               string  `json:"type"` // output, workspace or container
@@ -26,6 +31,25 @@ type Node struct {
 
 var __focused *Node
 var __currentworkspace string
+
+func (ipc *I3ipc) GetTree() (*Node, error) {
+	err := ipc.sendHeader(GET_TREE, 0)
+	if err != nil {
+		return nil, err
+	}
+
+	payload, err := ipc.readResponse()
+	if err != nil {
+		return nil, err
+	}
+
+	node := &Node{}
+	if err := json.Unmarshal(payload, &node); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
+	}
+
+	return node, nil
+}
 
 func (node *Node) FindFocused() *Node {
 	searchFocused(node.Nodes)

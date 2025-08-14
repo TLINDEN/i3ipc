@@ -1,0 +1,124 @@
+execve("/opt/bin/swaymsg", ["swaymsg", "-t", "get_bar_config", "bar-0"], 0x7ffca8a3d4b0 /* 96 vars */) = 0
+brk(NULL)                               = 0x57744ffbd000
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x70933d94d000
+access("/etc/ld.so.preload", R_OK)      = 0
+openat(AT_FDCWD, "/etc/ld.so.preload", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=0, ...}) = 0
+close(3)                                = 0
+openat(AT_FDCWD, "glibc-hwcaps/x86-64-v3/libjson-c.so.5", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "glibc-hwcaps/x86-64-v2/libjson-c.so.5", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "libjson-c.so.5", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/opt/lib/x86_64-linux-gnu/glibc-hwcaps/x86-64-v3/libjson-c.so.5", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/opt/lib/x86_64-linux-gnu/glibc-hwcaps/x86-64-v3/", 0x7fffe6d741a0, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/opt/lib/x86_64-linux-gnu/glibc-hwcaps/x86-64-v2/libjson-c.so.5", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/opt/lib/x86_64-linux-gnu/glibc-hwcaps/x86-64-v2/", 0x7fffe6d741a0, 0) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/opt/lib/x86_64-linux-gnu/libjson-c.so.5", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/opt/lib/x86_64-linux-gnu/", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=137987, ...}) = 0
+mmap(NULL, 137987, PROT_READ, MAP_PRIVATE, 3, 0) = 0x70933d92b000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libjson-c.so.5", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0644, st_size=80344, ...}) = 0
+mmap(NULL, 82416, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x70933d916000
+mmap(0x70933d91a000, 45056, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x4000) = 0x70933d91a000
+mmap(0x70933d925000, 16384, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xf000) = 0x70933d925000
+mmap(0x70933d929000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x12000) = 0x70933d929000
+close(3)                                = 0
+openat(AT_FDCWD, "glibc-hwcaps/x86-64-v3/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "glibc-hwcaps/x86-64-v2/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/opt/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0@\247\2\0\0\0\0\0"..., 832) = 832
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 840, 64) = 840
+fstat(3, {st_mode=S_IFREG|0755, st_size=2178688, ...}) = 0
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 840, 64) = 840
+mmap(NULL, 2223736, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x70933d600000
+mmap(0x70933d628000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x70933d628000
+mmap(0x70933d7bd000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000) = 0x70933d7bd000
+mmap(0x70933d80c000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x20b000) = 0x70933d80c000
+mmap(0x70933d812000, 52856, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x70933d812000
+close(3)                                = 0
+mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x70933d913000
+arch_prctl(ARCH_SET_FS, 0x70933d913740) = 0
+set_tid_address(0x70933d913a10)         = 97421
+set_robust_list(0x70933d913a20, 24)     = 0
+rseq(0x70933d913680, 0x20, 0, 0x53053053) = 0
+mprotect(0x70933d80c000, 16384, PROT_READ) = 0
+mprotect(0x70933d929000, 4096, PROT_READ) = 0
+mprotect(0x577441241000, 4096, PROT_READ) = 0
+mprotect(0x70933d98f000, 8192, PROT_READ) = 0
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+munmap(0x70933d92b000, 137987)          = 0
+ioctl(1, TCGETS, 0x7fffe6d74e80)        = -1 ENOTTY (Inappropriate ioctl for device)
+getrandom("\xf3\xb2\x5f\xb5\x3a\x0e\x13\x06", 8, GRND_NONBLOCK) = 8
+brk(NULL)                               = 0x57744ffbd000
+brk(0x57744ffde000)                     = 0x57744ffde000
+socket(AF_UNIX, SOCK_STREAM, 0)         = 3
+connect(3, {sa_family=AF_UNIX, sun_path="/run/user/1000/sway-ipc.1000.3461.sock"}, 110) = 0
+setsockopt(3, SOL_SOCKET, SO_RCVTIMEO_OLD, "\3\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 16) = 0
+write(3, "i3-ipc\5\0\0\0\6\0\0\0", 14)  = 14
+write(3, "bar-0", 5)                    = 5
+recvfrom(3, "i3-ipc\332\4\0\0\6\0\0\0", 14, 0, NULL, NULL) = 14
+recvfrom(3, "{ \"id\": \"bar-0\", \"mode\": \"dock\","..., 1242, 0, NULL, NULL) = 1242
+rt_sigprocmask(SIG_BLOCK, ~[], [], 8)   = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_DROPPABLE|MAP_ANONYMOUS, -1, 0) = 0x70933d94c000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x70933d94b000
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+getrandom("\x92\xda\xab\x78\x81\x42\x79\x34\x6f\x90\x94\x8c\xb4\x47\xfb\x85\xc1\x00\x43\x1b\x00\x78\x10\x09\x87\x65\x09\x2e\x79\xdb\x4d\xf7", 32, 0) = 32
+fstat(1, {st_mode=S_IFREG|0644, st_size=5648, ...}) = 0
+close(3)                                = 0
+write(1, "{\n  \"id\": \"bar-0\",\n  \"mode\": \"do"..., 1387{
+  "id": "bar-0",
+  "mode": "dock",
+  "hidden_state": "hide",
+  "position": "top",
+  "status_command": null,
+  "font": "monospace 10",
+  "gaps": {
+    "top": 0,
+    "right": 0,
+    "bottom": 0,
+    "left": 0
+  },
+  "bar_height": 0,
+  "status_padding": 1,
+  "status_edge_padding": 3,
+  "wrap_scroll": false,
+  "workspace_buttons": true,
+  "strip_workspace_numbers": false,
+  "strip_workspace_name": false,
+  "workspace_min_width": 0,
+  "binding_mode_indicator": true,
+  "verbose": false,
+  "pango_markup": true,
+  "colors": {
+    "background": "#000000ff",
+    "statusline": "#ffffffff",
+    "separator": "#666666ff",
+    "focused_background": "#000000ff",
+    "focused_statusline": "#ffffffff",
+    "focused_separator": "#666666ff",
+    "focused_workspace_border": "#4c7899ff",
+    "focused_workspace_bg": "#285577ff",
+    "focused_workspace_text": "#ffffffff",
+    "inactive_workspace_border": "#333333ff",
+    "inactive_workspace_bg": "#222222ff",
+    "inactive_workspace_text": "#888888ff",
+    "active_workspace_border": "#333333ff",
+    "active_workspace_bg": "#5f676aff",
+    "active_workspace_text": "#ffffffff",
+    "urgent_workspace_border": "#2f343aff",
+    "urgent_workspace_bg": "#900000ff",
+    "urgent_workspace_text": "#ffffffff",
+    "binding_mode_border": "#2f343aff",
+    "binding_mode_bg": "#900000ff",
+    "binding_mode_text": "#ffffffff"
+  },
+  "tray_padding": 2
+}
+) = 1387
+exit_group(0)                           = ?
++++ exited with 0 +++

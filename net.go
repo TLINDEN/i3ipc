@@ -64,8 +64,6 @@ func (ipc *I3ipc) readResponse() ([]byte, error) {
 		return nil, fmt.Errorf("failed to read header from ipc socket: %s", err)
 	}
 
-	// slog.Debug("got IPC header", "header", hex.EncodeToString(buf))
-
 	if string(buf[:6]) != IPC_MAGIC {
 		return nil, fmt.Errorf("got invalid response from IPC socket")
 	}
