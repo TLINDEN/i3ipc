@@ -25,6 +25,12 @@ import (
 	"os"
 )
 
+// Contains a raw json response, not marshalled yet.
+type RawResponse struct {
+	PayloadType int
+	Payload     []byte
+}
+
 // Connect to unix domain ipc socket.
 func (ipc *I3ipc) Connect() error {
 	if !fileExists(ipc.SocketFile) {
@@ -73,11 +79,6 @@ func (ipc *I3ipc) sendPayload(payload []byte) error {
 	}
 
 	return nil
-}
-
-type RawResponse struct {
-	PayloadType int
-	Payload     []byte
 }
 
 func (ipc *I3ipc) readResponse() (*RawResponse, error) {
