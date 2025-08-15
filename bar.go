@@ -1,3 +1,19 @@
+/*
+Copyright © 2025 Thomas von Dein
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 package i3ipc
 
 import (
@@ -5,6 +21,7 @@ import (
 	"fmt"
 )
 
+// Container gaps
 type Gaps struct {
 	Top    int `json:"top"`
 	Right  int `json:"right"`
@@ -12,6 +29,7 @@ type Gaps struct {
 	Left   int `json:"left"`
 }
 
+// Color definition, used primarily by bars
 type Colors struct {
 	Background              string `json:"background"`
 	Statusline              string `json:"statusline"`
@@ -36,6 +54,7 @@ type Colors struct {
 	BindingModeText         string `json:"binding_mode_text"`
 }
 
+// A bar such as a swaybar(5)
 type Bar struct {
 	Id                   string  `json:"id"`
 	Mode                 string  `json:"mode"`
@@ -54,6 +73,7 @@ type Bar struct {
 	Colors               *Colors `json:"colors"`
 }
 
+// Get a list of currently visible and active bar names
 func (ipc *I3ipc) GetBars() ([]string, error) {
 	payload, err := ipc.get(GET_BAR_CONFIG)
 	if err != nil {
@@ -61,13 +81,14 @@ func (ipc *I3ipc) GetBars() ([]string, error) {
 	}
 
 	bars := []string{}
-	if err := json.Unmarshal(payload, &bars); err != nil {
+	if err := json.Unmarshal(payload.Payload, &bars); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
 	}
 
 	return bars, nil
 }
 
+// Get the bar object of the bar specified by the string 'id'
 func (ipc *I3ipc) GetBar(id string) (*Bar, error) {
 	err := ipc.sendHeader(GET_BAR_CONFIG, uint32(len(id)))
 	if err != nil {
@@ -85,7 +106,7 @@ func (ipc *I3ipc) GetBar(id string) (*Bar, error) {
 	}
 
 	bar := &Bar{}
-	if err := json.Unmarshal(payload, &bar); err != nil {
+	if err := json.Unmarshal(payload.Payload, &bar); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
 	}
 

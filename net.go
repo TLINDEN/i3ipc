@@ -1,12 +1,31 @@
+/*
+Copyright © 2025 Thomas von Dein
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package i3ipc
 
 import (
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"net"
 	"os"
 )
 
+// Connect to unix domain ipc socket.
 func (ipc *I3ipc) Connect() error {
 	if !fileExists(ipc.SocketFile) {
 		ipc.SocketFile = os.Getenv(ipc.SocketFile)
@@ -25,6 +44,7 @@ func (ipc *I3ipc) Connect() error {
 	return nil
 }
 
+// Close the socket.
 func (ipc *I3ipc) Close() {
 	ipc.socket.Close()
 }
@@ -55,7 +75,12 @@ func (ipc *I3ipc) sendPayload(payload []byte) error {
 	return nil
 }
 
-func (ipc *I3ipc) readResponse() ([]byte, error) {
+type RawResponse struct {
+	PayloadType int
+	Payload     []byte
+}
+
+func (ipc *I3ipc) readResponse() (*RawResponse, error) {
 	// read header
 	buf := make([]byte, IPC_HEADER_SIZE)
 
@@ -65,14 +90,15 @@ func (ipc *I3ipc) readResponse() ([]byte, error) {
 	}
 
 	if string(buf[:6]) != IPC_MAGIC {
-		return nil, fmt.Errorf("got invalid response from IPC socket")
+		return nil, errors.New("got invalid response from IPC socket")
 	}
 
 	payloadLen := binary.LittleEndian.Uint32(buf[6:10])
-
 	if payloadLen == 0 {
-		return nil, fmt.Errorf("got empty payload response from IPC socket")
+		return nil, errors.New("got empty payload response from IPC socket")
 	}
+
+	payloadType := binary.LittleEndian.Uint32(buf[10:])
 
 	// read payload
 	payload := make([]byte, payloadLen)
@@ -82,5 +108,5 @@ func (ipc *I3ipc) readResponse() ([]byte, error) {
 		return nil, fmt.Errorf("failed to read payload from IPC socket: %s", err)
 	}
 
-	return payload, nil
+	return &RawResponse{PayloadType: int(payloadType), Payload: payload}, nil
 }

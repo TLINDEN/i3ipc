@@ -1,3 +1,19 @@
+/*
+Copyright © 2025 Thomas von Dein
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 package i3ipc
 
 import (
@@ -5,12 +21,14 @@ import (
 	"fmt"
 )
 
+// Store an output mode.
 type Mode struct {
 	Width   int `json:"width"`
 	Height  int `json:"height"`
 	Refresh int `json:"refresh"`
 }
 
+// An output object (i.e. a physical monitor)
 type Output struct {
 	Name              string  `json:"name"`
 	Make              string  `json:"make"`
@@ -24,6 +42,7 @@ type Output struct {
 	CurrentMode       *Mode   `json:"current_mode"`
 }
 
+// Get a list of currently available and usable outputs.
 func (ipc *I3ipc) GetOutputs() ([]*Output, error) {
 	err := ipc.sendHeader(GET_OUTPUTS, 0)
 	if err != nil {
@@ -36,7 +55,7 @@ func (ipc *I3ipc) GetOutputs() ([]*Output, error) {
 	}
 
 	workspaces := []*Output{}
-	if err := json.Unmarshal(payload, &workspaces); err != nil {
+	if err := json.Unmarshal(payload.Payload, &workspaces); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
 	}
 

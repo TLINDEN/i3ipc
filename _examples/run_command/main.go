@@ -20,6 +20,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer ipc.Close()
 
 	// retrieve the sway tree
 	tree, err := ipc.GetTree()
@@ -36,7 +37,7 @@ func main() {
 
 	// finally execute  the given commands on it, you  can use any run
 	// command, see sway(5)
-	responses, err := ipc.RunCommand(focused.Id, "floating toggle, border toggle")
+	responses, err := ipc.RunContainerCommand(focused.Id, "floating toggle, border toggle")
 	if err != nil {
 		repr.Println(responses)
 		log.Fatal(err)

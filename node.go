@@ -1,3 +1,19 @@
+/*
+Copyright © 2025 Thomas von Dein
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 package i3ipc
 
 import (
@@ -5,6 +21,8 @@ import (
 	"fmt"
 )
 
+// A node  can be an output,  a workspace, a container  or a container
+// containing a window.
 type Node struct {
 	Id                 int     `json:"id"`
 	Type               string  `json:"type"` // output, workspace or container
@@ -32,6 +50,14 @@ type Node struct {
 var __focused *Node
 var __currentworkspace string
 
+// Get the whole information tree,  contains everything from output to
+// containers as a tree of nodes.  Each node has a field 'Nodes' which
+// points  to  a   list  subnodes.  Some  nodes  also   have  a  field
+// 'FloatingNodes' which points to a list of floating containers.
+//
+// The top level node is the "root" node.
+//
+// Use the returned node oject to further investigate the wm setup.
 func (ipc *I3ipc) GetTree() (*Node, error) {
 	err := ipc.sendHeader(GET_TREE, 0)
 	if err != nil {
@@ -44,13 +70,15 @@ func (ipc *I3ipc) GetTree() (*Node, error) {
 	}
 
 	node := &Node{}
-	if err := json.Unmarshal(payload, &node); err != nil {
+	if err := json.Unmarshal(payload.Payload, &node); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
 	}
 
 	return node, nil
 }
 
+// Usually called  on the root  node, returns the container  which has
+// currently the focus.
 func (node *Node) FindFocused() *Node {
 	searchFocused(node.Nodes)
 	if __focused == nil {
@@ -60,6 +88,7 @@ func (node *Node) FindFocused() *Node {
 	return __focused
 }
 
+// internal recursive focus node searcher
 func searchFocused(nodes []*Node) {
 	for _, node := range nodes {
 		if node.Focused {
@@ -75,11 +104,14 @@ func searchFocused(nodes []*Node) {
 	}
 }
 
+// Usually  called  on  the  root node,  returns  the  current  active
+// workspace name.
 func (node *Node) FindCurrentWorkspace() string {
 	searchCurrentWorkspace(node.Nodes)
 	return __currentworkspace
 }
 
+// internal recursive workspace node searcher
 func searchCurrentWorkspace(nodes []*Node) {
 	for _, node := range nodes {
 		if node.Current_workspace != "" {

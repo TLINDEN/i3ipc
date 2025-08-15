@@ -19,6 +19,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer ipc.Close()
 
 	responses, err := ipc.RunGlobalCommand("border toggle")
 	if err != nil {

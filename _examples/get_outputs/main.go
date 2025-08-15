@@ -18,6 +18,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer ipc.Close()
 
 	outputs, err := ipc.GetOutputs()
 	if err != nil {

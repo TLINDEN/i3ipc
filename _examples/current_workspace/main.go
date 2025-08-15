@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	ipc := i3ipc.NewI3ipc("SWAYSOCK")
+	ipc := i3ipc.NewI3ipc()
 
 	err := ipc.Connect()
 	if err != nil {

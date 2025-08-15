@@ -21,25 +21,25 @@ import (
 	"fmt"
 )
 
-// A version struct holding the sway wm version
-type Version struct {
-	HumanReadable string `json:"human_readable"`
-	Major         int    `json:"major"`
-	Minor         int    `json:"minor"`
-	Patch         int    `json:"patch"`
+// Information about a seat containing input devices
+type Seat struct {
+	Name         string   `json:"name"`
+	Capabilities int      `json:"capabilities"`
+	Focus        int      `json:"focus"`
+	Devices      []*Input `json:"devices"`
 }
 
-// Get the sway software version
-func (ipc *I3ipc) GetVersion() (*Version, error) {
-	payload, err := ipc.get(GET_VERSION)
+// Get input seats
+func (ipc *I3ipc) GetSeats() ([]*Seat, error) {
+	payload, err := ipc.get(GET_SEATS)
 	if err != nil {
 		return nil, err
 	}
 
-	version := &Version{}
-	if err := json.Unmarshal(payload.Payload, &version); err != nil {
+	seats := []*Seat{}
+	if err := json.Unmarshal(payload.Payload, &seats); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
 	}
 
-	return version, nil
+	return seats, nil
 }

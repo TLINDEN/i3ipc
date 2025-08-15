@@ -18,6 +18,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer ipc.Close()
 
 	marks, err := ipc.GetMarks()
 	if err != nil {

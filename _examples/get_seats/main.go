@@ -1,7 +1,7 @@
 package main
 
 /*
- Retrieve a list of current available workspaces
+ Retrieve a list of current available inputs
 */
 
 import (
@@ -20,10 +20,10 @@ func main() {
 	}
 	defer ipc.Close()
 
-	workspaces, err := ipc.GetWorkspaces()
+	seats, err := ipc.GetSeats()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	repr.Println(workspaces)
+	repr.Println(seats)
 }

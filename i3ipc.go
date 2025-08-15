@@ -1,10 +1,24 @@
+/*
+Copyright © 2025 Thomas von Dein
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package i3ipc
 
 import (
-	"encoding/json"
-	"fmt"
 	"net"
-	"strings"
 )
 
 const (
@@ -30,34 +44,49 @@ const (
 	SEND_TICK
 	SYNC
 	GET_BINDING_STATE
-	GET_INPUTS
-	GET_SEATS
+
+	GET_INPUTS = 100
+	GET_SEATS  = 101
 )
 
-// module struct
+// This is the primary struct to work with the i3ipc module.
 type I3ipc struct {
 	socket     net.Conn
-	SocketFile string
+	SocketFile string // filename of the i3 IPC socket
+	Events     *Event // store subscribed events, see i3ipc.Subscribe()
 }
 
-// i3-ipc structs
+// A rectangle struct, used at various places for geometry etc.
 type Rect struct {
-	X      int `json:"x"`
-	Y      int `json:"y"`
+	X      int `json:"x"` // X coordinate
+	Y      int `json:"y"` // Y coordinate
 	Width  int `json:"width"`
 	Height int `json:"height"`
 }
 
+// Stores responses retrieved via ipc
 type Response struct {
 	Success    bool   `json:"success"`
 	ParseError bool   `json:"parse_error"`
 	Error      string `json:"error"`
 }
 
+// Stores the user config for the WM
 type Config struct {
 	Config string `json:"config"`
 }
 
+// Stores the binding state
+type State struct {
+	Name string `json:"name"`
+}
+
+// Create a new i3ipc.I3ipc object.  Filename argument is optional and
+// may denote  a filename or the  name of an environment  variable.
+//
+// By default and if nothing is  specified we look for the environment
+// variable SWAYSOCK  and use  the file  it points  to as  unix domain
+// socket to communicate with sway (and possible i3).
 func NewI3ipc(file ...string) *I3ipc {
 	ipc := &I3ipc{}
 
@@ -70,7 +99,8 @@ func NewI3ipc(file ...string) *I3ipc {
 	return ipc
 }
 
-func (ipc *I3ipc) get(command uint32) ([]byte, error) {
+// internal convenience wrapper
+func (ipc *I3ipc) get(command uint32) (*RawResponse, error) {
 	err := ipc.sendHeader(command, 0)
 	if err != nil {
 		return nil, err
@@ -82,109 +112,4 @@ func (ipc *I3ipc) get(command uint32) ([]byte, error) {
 	}
 
 	return payload, nil
-}
-
-func (ipc *I3ipc) RunGlobalCommand(command ...string) ([]Response, error) {
-	return ipc.RunCommand(0, command...)
-}
-
-func (ipc *I3ipc) RunCommand(id int, command ...string) ([]Response, error) {
-	if len(command) == 0 {
-		return nil, fmt.Errorf("empty command arg")
-	}
-
-	commands := strings.Join(command, ",")
-
-	if id > 0 {
-		commands = fmt.Sprintf("[con_id=%d] %s", id, commands)
-	}
-
-	err := ipc.sendHeader(RUN_COMMAND, uint32(len(commands)))
-	if err != nil {
-		return nil, fmt.Errorf("failed to send run_command to IPC %w", err)
-	}
-
-	err = ipc.sendPayload([]byte(commands))
-	if err != nil {
-		return nil, fmt.Errorf("failed to send switch focus command: %w", err)
-	}
-
-	payload, err := ipc.readResponse()
-	if err != nil {
-		return nil, err
-	}
-
-	responses := []Response{}
-
-	if err := json.Unmarshal(payload, &responses); err != nil {
-		return nil, fmt.Errorf("failed to unmarshal json response: %w", err)
-	}
-
-	if len(responses) == 0 {
-		return nil, fmt.Errorf("got zero IPC response")
-	}
-
-	for _, response := range responses {
-		if !response.Success {
-			return responses, fmt.Errorf("one or more commands failed")
-		}
-	}
-
-	return responses, nil
-}
-
-func (ipc *I3ipc) GetWorkspaces() ([]*Node, error) {
-	payload, err := ipc.get(GET_WORKSPACES)
-	if err != nil {
-		return nil, err
-	}
-
-	nodes := []*Node{}
-	if err := json.Unmarshal(payload, &nodes); err != nil {
-		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
-	}
-
-	return nodes, nil
-}
-
-func (ipc *I3ipc) GetMarks() ([]string, error) {
-	payload, err := ipc.get(GET_MARKS)
-	if err != nil {
-		return nil, err
-	}
-
-	marks := []string{}
-	if err := json.Unmarshal(payload, &marks); err != nil {
-		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
-	}
-
-	return marks, nil
-}
-
-func (ipc *I3ipc) GetBindingModes() ([]string, error) {
-	payload, err := ipc.get(GET_BINDING_MODES)
-	if err != nil {
-		return nil, err
-	}
-
-	modes := []string{}
-	if err := json.Unmarshal(payload, &modes); err != nil {
-		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
-	}
-
-	return modes, nil
-}
-
-func (ipc *I3ipc) GetConfig() (string, error) {
-	payload, err := ipc.get(GET_CONFIG)
-	if err != nil {
-		return "", err
-	}
-
-	config := &Config{}
-	if err := json.Unmarshal(payload, &config); err != nil {
-		return "", fmt.Errorf("failed to unmarshal json: %w", err)
-	}
-
-	return config.Config, nil
 }
