@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	VERSION = "v0.2.0"
+	VERSION = "v0.3.0"
 
 	IPC_HEADER_SIZE = 14
 	IPC_MAGIC       = "i3-ipc"
