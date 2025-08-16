@@ -3,7 +3,7 @@
 ![GitHub License](https://img.shields.io/github/license/tlinden/swayipc)
 [![GoDoc](https://godoc.org/github.com/tlinden/swayipc?status.svg)](https://godoc.org/github.com/tlinden/swayipc)
 
-# swayipc - go bindings to control sway (and possibly i3)
+# swayipc - go bindings to control sway and swayfx
 
 Package swayipc can be used to control [sway](https://swaywm.org/),
 [swayfx](https://github.com/WillPower3309/swayfx) and possibly
