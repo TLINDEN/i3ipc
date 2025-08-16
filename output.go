@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-package i3ipc
+package swayipc
 
 import (
 	"encoding/json"
@@ -43,7 +43,7 @@ type Output struct {
 }
 
 // Get a list of currently available and usable outputs.
-func (ipc *I3ipc) GetOutputs() ([]*Output, error) {
+func (ipc *SwayIPC) GetOutputs() ([]*Output, error) {
 	err := ipc.sendHeader(GET_OUTPUTS, 0)
 	if err != nil {
 		return nil, err

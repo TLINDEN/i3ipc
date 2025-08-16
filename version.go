@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-package i3ipc
+package swayipc
 
 import (
 	"encoding/json"
@@ -30,7 +30,7 @@ type Version struct {
 }
 
 // Get the sway software version
-func (ipc *I3ipc) GetVersion() (*Version, error) {
+func (ipc *SwayIPC) GetVersion() (*Version, error) {
 	payload, err := ipc.get(GET_VERSION)
 	if err != nil {
 		return nil, err

@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-package i3ipc
+package swayipc
 
 import (
 	"encoding/json"
@@ -30,7 +30,7 @@ type Seat struct {
 }
 
 // Get input seats
-func (ipc *I3ipc) GetSeats() ([]*Seat, error) {
+func (ipc *SwayIPC) GetSeats() ([]*Seat, error) {
 	payload, err := ipc.get(GET_SEATS)
 	if err != nil {
 		return nil, err

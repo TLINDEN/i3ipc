@@ -15,14 +15,14 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-package i3ipc
+package swayipc
 
 import (
 	"net"
 )
 
 const (
-	VERSION = "v0.1.0"
+	VERSION = "v0.2.0"
 
 	IPC_HEADER_SIZE = 14
 	IPC_MAGIC       = "i3-ipc"
@@ -49,11 +49,11 @@ const (
 	GET_SEATS  = 101
 )
 
-// This is the primary struct to work with the i3ipc module.
-type I3ipc struct {
+// This is the primary struct to work with the swayipc module.
+type SwayIPC struct {
 	socket     net.Conn
 	SocketFile string // filename of the i3 IPC socket
-	Events     *Event // store subscribed events, see i3ipc.Subscribe()
+	Events     *Event // store subscribed events, see swayipc.Subscribe()
 }
 
 // A rectangle struct, used at various places for geometry etc.
@@ -81,14 +81,14 @@ type State struct {
 	Name string `json:"name"`
 }
 
-// Create a new i3ipc.I3ipc object.  Filename argument is optional and
+// Create a new swayipc.SwayIPC object.  Filename argument is optional and
 // may denote  a filename or the  name of an environment  variable.
 //
 // By default and if nothing is  specified we look for the environment
 // variable SWAYSOCK  and use  the file  it points  to as  unix domain
 // socket to communicate with sway (and possible i3).
-func NewI3ipc(file ...string) *I3ipc {
-	ipc := &I3ipc{}
+func NewSwayIPC(file ...string) *SwayIPC {
+	ipc := &SwayIPC{}
 
 	if len(file) == 0 {
 		ipc.SocketFile = "SWAYSOCK"
@@ -100,7 +100,7 @@ func NewI3ipc(file ...string) *I3ipc {
 }
 
 // internal convenience wrapper
-func (ipc *I3ipc) get(command uint32) (*RawResponse, error) {
+func (ipc *SwayIPC) get(command uint32) (*RawResponse, error) {
 	err := ipc.sendHeader(command, 0)
 	if err != nil {
 		return nil, err

@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-package i3ipc
+package swayipc
 
 import (
 	"encoding/binary"
@@ -32,7 +32,7 @@ type RawResponse struct {
 }
 
 // Connect to unix domain ipc socket.
-func (ipc *I3ipc) Connect() error {
+func (ipc *SwayIPC) Connect() error {
 	if !fileExists(ipc.SocketFile) {
 		ipc.SocketFile = os.Getenv(ipc.SocketFile)
 		if ipc.SocketFile == "" {
@@ -51,11 +51,11 @@ func (ipc *I3ipc) Connect() error {
 }
 
 // Close the socket.
-func (ipc *I3ipc) Close() {
+func (ipc *SwayIPC) Close() {
 	ipc.socket.Close()
 }
 
-func (ipc *I3ipc) sendHeader(messageType uint32, len uint32) error {
+func (ipc *SwayIPC) sendHeader(messageType uint32, len uint32) error {
 	sendPayload := make([]byte, IPC_HEADER_SIZE)
 
 	copy(sendPayload, []byte(IPC_MAGIC))
@@ -71,7 +71,7 @@ func (ipc *I3ipc) sendHeader(messageType uint32, len uint32) error {
 	return nil
 }
 
-func (ipc *I3ipc) sendPayload(payload []byte) error {
+func (ipc *SwayIPC) sendPayload(payload []byte) error {
 	_, err := ipc.socket.Write(payload)
 
 	if err != nil {
@@ -81,7 +81,7 @@ func (ipc *I3ipc) sendPayload(payload []byte) error {
 	return nil
 }
 
-func (ipc *I3ipc) readResponse() (*RawResponse, error) {
+func (ipc *SwayIPC) readResponse() (*RawResponse, error) {
 	// read header
 	buf := make([]byte, IPC_HEADER_SIZE)
 

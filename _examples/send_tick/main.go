@@ -12,7 +12,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/tlinden/i3ipc"
+	"github.com/tlinden/swayipc"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 		payload = os.Args[1]
 	}
 
-	ipc := i3ipc.NewI3ipc()
+	ipc := swayipc.NewSwayIPC()
 
 	err := ipc.Connect()
 	if err != nil {

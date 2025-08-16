@@ -1,4 +1,4 @@
-package i3ipc
+package swayipc
 
 import "os"
 

@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-package i3ipc
+package swayipc
 
 import (
 	"encoding/json"
@@ -67,7 +67,7 @@ type Binding struct {
 }
 
 // Get a list of all currently supported inputs
-func (ipc *I3ipc) GetInputs() ([]*Input, error) {
+func (ipc *SwayIPC) GetInputs() ([]*Input, error) {
 	payload, err := ipc.get(GET_INPUTS)
 	if err != nil {
 		return nil, err

@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-package i3ipc
+package swayipc
 
 import (
 	"encoding/json"
@@ -36,7 +36,7 @@ const (
 	EV_Input           int = 0x80000015
 )
 
-// Subscriber struct, use this to tell  i3ipc which events you want to
+// Subscriber struct, use this to tell  swayipc which events you want to
 // subscribe.
 type Event struct {
 	Workspace       bool
@@ -104,12 +104,12 @@ type EventInput struct {
 	Input  *Input `json:"input"`
 }
 
-// Subscribe  to  one or  more  events.  Fill the  i3ipc.Event  object
+// Subscribe  to  one or  more  events.  Fill the  swayipc.Event  object
 // accordingly.
 //
 // Returns a response list containing  a response for every subscribed
 // event.
-func (ipc *I3ipc) Subscribe(sub *Event) ([]*Response, error) {
+func (ipc *SwayIPC) Subscribe(sub *Event) ([]*Response, error) {
 	events := []string{}
 
 	// looks ugly but makes it much more comfortable for the user
@@ -181,12 +181,12 @@ func (ipc *I3ipc) Subscribe(sub *Event) ([]*Response, error) {
 //
 // You  supply the  loop a  generic callback  function, which  will be
 // called every  time an event  occurs. The function will  receive the
-// i3ipc.RawResponse object for the event.  You need to Unmarshall the
+// swayipc.RawResponse object for the event.  You need to Unmarshall the
 // Payload field yourself.
 //
 // If your callback function returns  an error, the event loop returns
 // with this error and finishes thus.
-func (ipc *I3ipc) EventLoop(callback func(event *RawResponse) error) error {
+func (ipc *SwayIPC) EventLoop(callback func(event *RawResponse) error) error {
 	for {
 		payload, err := ipc.readResponse()
 		if err != nil {

@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-package i3ipc
+package swayipc
 
 import (
 	"encoding/json"
@@ -74,7 +74,7 @@ type Bar struct {
 }
 
 // Get a list of currently visible and active bar names
-func (ipc *I3ipc) GetBars() ([]string, error) {
+func (ipc *SwayIPC) GetBars() ([]string, error) {
 	payload, err := ipc.get(GET_BAR_CONFIG)
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ func (ipc *I3ipc) GetBars() ([]string, error) {
 }
 
 // Get the bar object of the bar specified by the string 'id'
-func (ipc *I3ipc) GetBar(id string) (*Bar, error) {
+func (ipc *SwayIPC) GetBar(id string) (*Bar, error) {
 	err := ipc.sendHeader(GET_BAR_CONFIG, uint32(len(id)))
 	if err != nil {
 		return nil, err

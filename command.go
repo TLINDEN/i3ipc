@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-package i3ipc
+package swayipc
 
 import (
 	"encoding/json"
@@ -28,7 +28,7 @@ import (
 // given) and returns a response list.
 //
 // Possible commands are all non-specific commands, see sway(5)
-func (ipc *I3ipc) RunGlobalCommand(command ...string) ([]Response, error) {
+func (ipc *SwayIPC) RunGlobalCommand(command ...string) ([]Response, error) {
 	return ipc.RunCommand(0, "", command...)
 }
 
@@ -36,7 +36,7 @@ func (ipc *I3ipc) RunGlobalCommand(command ...string) ([]Response, error) {
 // given) and returns a response list.
 //
 // Possible commands are all container-specific commands, see sway(5)
-func (ipc *I3ipc) RunContainerCommand(id int, command ...string) ([]Response, error) {
+func (ipc *SwayIPC) RunContainerCommand(id int, command ...string) ([]Response, error) {
 	return ipc.RunCommand(id, "con", command...)
 }
 
@@ -46,7 +46,7 @@ func (ipc *I3ipc) RunContainerCommand(id int, command ...string) ([]Response, er
 // Possible commands are all container-specific commands, see sway(5).
 //
 // Target can be one of con, workspace, output, input, etc. see sway-ipc(7).
-func (ipc *I3ipc) RunCommand(id int, target string, command ...string) ([]Response, error) {
+func (ipc *SwayIPC) RunCommand(id int, target string, command ...string) ([]Response, error) {
 	if len(command) == 0 {
 		return nil, errors.New("empty command arg")
 	}

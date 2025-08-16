@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-package i3ipc
+package swayipc
 
 import (
 	"encoding/json"
@@ -58,7 +58,7 @@ var __currentworkspace string
 // The top level node is the "root" node.
 //
 // Use the returned node oject to further investigate the wm setup.
-func (ipc *I3ipc) GetTree() (*Node, error) {
+func (ipc *SwayIPC) GetTree() (*Node, error) {
 	err := ipc.sendHeader(GET_TREE, 0)
 	if err != nil {
 		return nil, err

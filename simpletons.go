@@ -1,11 +1,11 @@
-package i3ipc
+package swayipc
 
 import (
 	"encoding/json"
 	"fmt"
 )
 
-func (ipc *I3ipc) GetWorkspaces() ([]*Node, error) {
+func (ipc *SwayIPC) GetWorkspaces() ([]*Node, error) {
 	payload, err := ipc.get(GET_WORKSPACES)
 	if err != nil {
 		return nil, err
@@ -19,7 +19,7 @@ func (ipc *I3ipc) GetWorkspaces() ([]*Node, error) {
 	return nodes, nil
 }
 
-func (ipc *I3ipc) GetMarks() ([]string, error) {
+func (ipc *SwayIPC) GetMarks() ([]string, error) {
 	payload, err := ipc.get(GET_MARKS)
 	if err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func (ipc *I3ipc) GetMarks() ([]string, error) {
 	return marks, nil
 }
 
-func (ipc *I3ipc) GetBindingModes() ([]string, error) {
+func (ipc *SwayIPC) GetBindingModes() ([]string, error) {
 	payload, err := ipc.get(GET_BINDING_MODES)
 	if err != nil {
 		return nil, err
@@ -47,7 +47,7 @@ func (ipc *I3ipc) GetBindingModes() ([]string, error) {
 	return modes, nil
 }
 
-func (ipc *I3ipc) GetBindingState() (*State, error) {
+func (ipc *SwayIPC) GetBindingState() (*State, error) {
 	payload, err := ipc.get(GET_BINDING_STATE)
 	if err != nil {
 		return nil, err
@@ -61,7 +61,7 @@ func (ipc *I3ipc) GetBindingState() (*State, error) {
 	return state, nil
 }
 
-func (ipc *I3ipc) GetConfig() (string, error) {
+func (ipc *SwayIPC) GetConfig() (string, error) {
 	payload, err := ipc.get(GET_CONFIG)
 	if err != nil {
 		return "", err
@@ -75,7 +75,7 @@ func (ipc *I3ipc) GetConfig() (string, error) {
 	return config.Config, nil
 }
 
-func (ipc *I3ipc) SendTick(payload string) error {
+func (ipc *SwayIPC) SendTick(payload string) error {
 	err := ipc.sendHeader(SEND_TICK, uint32(len(payload)))
 	if err != nil {
 		return err

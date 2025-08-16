@@ -10,20 +10,20 @@ import (
 	"log"
 
 	"github.com/alecthomas/repr"
-	"github.com/tlinden/i3ipc"
+	"github.com/tlinden/swayipc"
 )
 
 // Event callback function, needs to implement each subscribed events,
 // fed to it as RawResponse
-func ProcessTick(event *i3ipc.RawResponse) error {
+func ProcessTick(event *swayipc.RawResponse) error {
 	var err error
 	switch event.PayloadType {
-	case i3ipc.EV_Tick:
-		ev := &i3ipc.EventTick{}
+	case swayipc.EV_Tick:
+		ev := &swayipc.EventTick{}
 		err = json.Unmarshal(event.Payload, &ev)
 		repr.Println(ev)
-	case i3ipc.EV_Window:
-		ev := &i3ipc.EventWindow{}
+	case swayipc.EV_Window:
+		ev := &swayipc.EventWindow{}
 		err = json.Unmarshal(event.Payload, &ev)
 		repr.Println(ev)
 	default:
@@ -38,7 +38,7 @@ func ProcessTick(event *i3ipc.RawResponse) error {
 }
 
 func main() {
-	ipc := i3ipc.NewI3ipc()
+	ipc := swayipc.NewSwayIPC()
 
 	err := ipc.Connect()
 	if err != nil {
@@ -46,7 +46,7 @@ func main() {
 	}
 	defer ipc.Close()
 
-	_, err = ipc.Subscribe(&i3ipc.Event{
+	_, err = ipc.Subscribe(&swayipc.Event{
 		Tick:   true,
 		Window: true,
 	})
