@@ -15,43 +15,5 @@ work with sway and swayfx, but may also work with i3wm, although I
 haven't tested it on i3wm.
 
 The module uses the i3-IPC proctocol as outlined in sway-ipc(7).
-
-Example usage:
-
-In this example we retrieve the current focused window:
-
-	package main
-
-	import (
-	        "fmt"
-	        "log"
-
-	        "github.com/tlinden/swayipc"
-	)
-
-	func main() {
-	        ipc := swayipc.NewSwayIPC()
-
-	        err := ipc.Connect()
-	        if err != nil {
-	                log.Fatal(err)
-	        }
-	        defer ipc.Close()
-
-	        tree, err := ipc.GetTree()
-	        if err != nil {
-	                log.Fatal(err)
-	        }
-
-	        focused := tree.FindFocused()
-
-	        if focused != nil {
-	                fmt.Printf("focused node: %s\n  id: %d\n  Geometry: %dx%d\n",
-	                        focused.Name, focused.Id, focused.Geometry.Width,
-	                        focused.Geometry.Height)
-	        }
-	}
-
-Also take a look into the **_examples** folder for more examples.
 */
 package swayipc
