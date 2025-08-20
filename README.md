@@ -66,7 +66,10 @@ func main() {
 }
 ```
 
-Also take a look into the **_examples** folder for more examples.
+Also take a look into the **_examples** folder for more examples. For
+a more comprehensive and practical example look at the
+`_examples/descratcher` program which you can use to selectively
+retrieve a window from the scratchpad.
 
 You may take a look at the [tool swaycycle](https://github.com/tlinden/swaycycle)
 which is using this module.
