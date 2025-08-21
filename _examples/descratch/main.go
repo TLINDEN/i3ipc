@@ -77,7 +77,7 @@ func retrieveWindow(ipc *swayipc.SwayIPC, scratch *swayipc.Node, id int) {
 
 	// scratched windows are floating, so we move it to current
 	// workspace, disable the floating state and switch focus to it
-	responses, err := ipc.RunContainerCommand(id, "move workspace current, floating toggle, focus")
+	responses, err := ipc.RunContainerCommand(id, "move workspace current", "floating toggle", "focus")
 	if err != nil {
 		repr.Println(responses)
 		log.Fatal(err)
